@@ -1,0 +1,6 @@
+rootProject.name = 'raon-notification-example'
+
+include 'api'
+include 'consumer'
+include 'core'
+
