@@ -7,14 +7,20 @@ import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.test.context.SpringBootTest;
 
 /**
  * @author    : kimjungmin
  * Created on : 2025. 3. 9.
  */
-class NotificationRepositoryMemoryImplTest {
+@SpringBootApplication
+@SpringBootTest
+class NotificationRepositoryTest {
 
-	private final NotificationRepositoryMemoryImpl sut = new NotificationRepositoryMemoryImpl();
+	@Autowired
+	private NotificationRepository sut;
 
 	private final Instant now = Instant.now();
 
@@ -43,8 +49,8 @@ class NotificationRepositoryMemoryImplTest {
 		assertEquals("1", findedNotification.id);
 		assertEquals(2L, findedNotification.userId);
 		assertEquals(NotificationType.LIKE, findedNotification.type);
-		assertEquals(now, findedNotification.createdAt);
-		assertEquals(now.plus(90, ChronoUnit.DAYS), findedNotification.deletedAt);
+		assertEquals(now.getEpochSecond(), findedNotification.createdAt.getEpochSecond());
+		assertEquals(now.plus(90, ChronoUnit.DAYS).getEpochSecond(), findedNotification.deletedAt.getEpochSecond());
 	}
 
 	@Test
