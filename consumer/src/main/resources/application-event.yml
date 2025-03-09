@@ -1,0 +1,28 @@
+spring:
+  cloud:
+    function:
+      definition: comment; like; follow;
+    stream:
+      binder:
+        brokers: localhost:9092
+      bindings:
+        # 채널 이름
+        comment-in-0:
+          # 토픽 이름
+          destination: comment
+          content-type: application/json
+          group: notification-consumer
+          consumer:
+            max-attempts: 2
+        like-in-0:
+          destination: like
+          content-type: application/json
+          group: notification-consumer
+          consumer:
+            max-attempts: 2
+        follow-in-0:
+          destination: follow
+          content-type: application/json
+          group: notification-consumer
+          consumer:
+            max-attempts: 2
