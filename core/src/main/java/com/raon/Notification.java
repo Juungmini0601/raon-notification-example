@@ -2,29 +2,24 @@ package com.raon;
 
 import java.time.Instant;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 /**
  * @author    : kimjungmin
  * Created on : 2025. 3. 9.
  */
-
-enum NotificationType {
-	LIKE,
-	COMMENT,
-	FOLLOW,
-}
-
-public class Notification {
-	public String id;
-	public Long userId;
-	public NotificationType type;
-	public Instant createdAt;
-	public Instant deletedAt;
-
-	public Notification(String id, Long userId, NotificationType type, Instant createdAt, Instant deletedAt) {
-		this.id = id;
-		this.userId = userId;
-		this.type = type;
-		this.createdAt = createdAt;
-		this.deletedAt = deletedAt;
-	}
+@Getter
+@AllArgsConstructor
+@Document("notifications")
+public abstract class Notification {
+	private String id;
+	private Long userId;
+	private NotificationType type;
+	private Instant createdAt;
+	private Instant deletedAt;
+	private Instant occurredAt; // 알림 대상인 실제 이벤트가 발생한 시간
+	private Instant lastUpdatedAt;
 }

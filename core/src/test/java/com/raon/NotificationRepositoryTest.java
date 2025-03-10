@@ -19,15 +19,26 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class NotificationRepositoryTest {
 
+	private final Instant now = Instant.now();
 	@Autowired
 	private NotificationRepository sut;
-
-	private final Instant now = Instant.now();
 
 	@Test
 	void test_save() {
 		// 알림 객체 생성
-		Notification notification = new Notification("1", 2L, NotificationType.LIKE, now, now.plus(90, ChronoUnit.DAYS));
+		CommentNotification notification = new CommentNotification(
+			"1",
+			2L,
+			NotificationType.COMMENT,
+			now,
+			now.plus(90, ChronoUnit.DAYS),
+			now.minus(1, ChronoUnit.DAYS),
+			now,
+			100L,
+			101L,
+			"Test comment"
+		);
+
 		// 저장
 		sut.save(notification);
 		// 조회 했을 때 객체가 있나?
@@ -38,7 +49,19 @@ class NotificationRepositoryTest {
 
 	@Test
 	void test_find_by_id() {
-		Notification notification = new Notification("1", 2L, NotificationType.LIKE, now, now.plus(90, ChronoUnit.DAYS));
+		// 알림 객체 생성
+		CommentNotification notification = new CommentNotification(
+			"1",
+			2L,
+			NotificationType.COMMENT,
+			now,
+			now.plus(90, ChronoUnit.DAYS),
+			now.minus(1, ChronoUnit.DAYS),
+			now,
+			100L,
+			101L,
+			"Test comment"
+		);
 
 		sut.save(notification);
 		// 조회 했을 때 객체가 있나?
@@ -46,16 +69,29 @@ class NotificationRepositoryTest {
 		Notification findedNotification = result.get();
 
 		assertTrue(result.isPresent());
-		assertEquals("1", findedNotification.id);
-		assertEquals(2L, findedNotification.userId);
-		assertEquals(NotificationType.LIKE, findedNotification.type);
-		assertEquals(now.getEpochSecond(), findedNotification.createdAt.getEpochSecond());
-		assertEquals(now.plus(90, ChronoUnit.DAYS).getEpochSecond(), findedNotification.deletedAt.getEpochSecond());
+		assertEquals("1", findedNotification.getId());
+		assertEquals(2L, findedNotification.getUserId());
+		assertEquals(NotificationType.COMMENT, findedNotification.getType());
+		assertEquals(now.getEpochSecond(), findedNotification.getCreatedAt().getEpochSecond());
+		assertEquals(now.plus(90, ChronoUnit.DAYS).getEpochSecond(),
+			findedNotification.getDeletedAt().getEpochSecond());
 	}
 
 	@Test
 	void test_delete_by_id() {
-		Notification notification = new Notification("1", 2L, NotificationType.LIKE, now, now.plus(90, ChronoUnit.DAYS));
+		// 알림 객체 생성
+		CommentNotification notification = new CommentNotification(
+			"1",
+			2L,
+			NotificationType.COMMENT,
+			now,
+			now.plus(90, ChronoUnit.DAYS),
+			now.minus(1, ChronoUnit.DAYS),
+			now,
+			100L,
+			101L,
+			"Test comment"
+		);
 
 		sut.save(notification);
 		sut.deleteById("1");
