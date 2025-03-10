@@ -36,7 +36,8 @@ class NotificationRepositoryTest {
 			now,
 			100L,
 			101L,
-			"Test comment"
+			"Test comment",
+			1L
 		);
 
 		// 저장
@@ -60,7 +61,8 @@ class NotificationRepositoryTest {
 			now,
 			100L,
 			101L,
-			"Test comment"
+			"Test comment",
+			1L
 		);
 
 		sut.save(notification);
@@ -90,7 +92,8 @@ class NotificationRepositoryTest {
 			now,
 			100L,
 			101L,
-			"Test comment"
+			"Test comment",
+			1L
 		);
 
 		sut.save(notification);
